@@ -1315,4 +1315,42 @@ function cekAset() {
 }
 </script>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // Konfigurasi Koneksi
+  const supabaseUrl = 'URL_PROYEK_SUPABASE_MU';
+  const supabaseKey = 'API_KEY_ANON_MU';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Menangkap Form Pendaftaran Anggota
+  const formDaftar = document.getElementById('form-daftar');
+
+  if (formDaftar) {
+    formDaftar.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Supaya halaman tidak refresh saat diklik
+
+      // Mengambil data dari kotak input di HTML
+      const dataBaru = {
+        nama: document.getElementById('reg-nama').value,
+        nip: document.getElementById('reg-nip').value,
+        jabatan: document.getElementById('reg-jabatan').value,
+        telepon: document.getElementById('reg-telp').value,
+        alamat: document.getElementById('reg-alamat').value
+      };
+
+      // Perintah menyimpan ke tabel 'anggota' di Supabase
+      const { data, error } = await supabase
+        .from('anggota')
+        .insert([dataBaru]);
+
+      if (error) {
+        alert('Waduh, gagal simpan: ' + error.message);
+      } else {
+        alert('Alhamdulillah! Data anggota berhasil masuk ke database.');
+        formDaftar.reset(); // Kosongkan form lagi
+      }
+    });
+  }
+</script>
 </html>

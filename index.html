@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koperasi Amanah — Pengadilan Agama Ngamprah</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --hijau: #1B6B45;
+  --hijau-mid: #227A50;
+  --hijau-light: #2E9E6A;
+  --hijau-pale: #D6F0E4;
+  --emas: #B8860B;
+  --emas-light: #D4A017;
+  --emas-pale: #FFF4D6;
+  --putih: #FFFFFF;
+  --abu-gelap: #1A1F2E;
+  --abu-mid: #2C3347;
+  --abu-light: #3D4560;
+  --teks-dim: #8896AA;
+  --teks-body: #E8EDF5;
+  --merah: #C0392B;
+  --merah-pale: #FDECEA;
+  --biru: #2563EB;
+  --border: rgba(43, 180, 120, 0.18);
+  --card: rgba(44, 51, 71, 0.7);
+  --sukses: #16A34A;
+  --warning: #D97706;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--abu-gelap);
+  color: var(--teks-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%, rgba(27,107,69,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 70% at 100% 100%, rgba(184,134,11,0.08) 0%, transparent 55%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── LAYOUT ── */
+.app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 255px; min-height: 100vh;
+  background: rgba(26, 31, 46, 0.97);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  backdrop-filter: blur(24px);
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.logo-area {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.logo-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--hijau), var(--hijau-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(27,107,69,0.4);
+}
+.logo-text .nama { font-family: 'Lora', serif; font-size: 15px; font-weight: 700; color: var(--putih); line-height: 1.2; }
+.logo-text .instansi { font-size: 10px; color: var(--teks-dim); margin-top: 2px; line-height: 1.3; }
+
+.nav-wrap { flex: 1; padding: 12px 10px; overflow-y: auto; }
+.nav-group { margin-bottom: 4px; }
+.nav-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--teks-dim);
+  padding: 10px 10px 5px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 10px; border-radius: 8px;
+  cursor: pointer; transition: all 0.18s;
+  color: var(--teks-dim); font-size: 13px; font-weight: 400;
+  margin-bottom: 1px; position: relative;
+  user-select: none;
+}
+.nav-item:hover { background: rgba(43,180,120,0.09); color: #7DD3B0; }
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(27,107,69,0.35), rgba(27,107,69,0.1));
+  color: #5DC99A; font-weight: 600;
+}
+.nav-item.active::before {
+  content: ''; position: absolute; left: 0; top: 25%; bottom: 25%;
+  width: 3px; background: var(--hijau-light); border-radius: 0 3px 3px 0;
+}
+.nav-sub {
+  padding-left: 28px;
+}
+.nav-sub .nav-item { font-size: 12px; padding: 7px 10px; }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+.nav-badge {
+  margin-left: auto; background: var(--emas-light); color: #3D2800;
+  font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px;
+}
+
+.sidebar-user {
+  padding: 14px 16px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.user-av {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--hijau-light), var(--emas-light));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12px; color: var(--putih); flex-shrink: 0;
+}
+.user-nm { font-size: 12px; font-weight: 600; color: var(--putih); }
+.user-rl { font-size: 10px; color: var(--teks-dim); }
+.logout-btn {
+  margin-left: auto; background: none; border: none;
+  color: var(--teks-dim); cursor: pointer; font-size: 16px;
+  transition: color 0.2s;
+}
+.logout-btn:hover { color: var(--merah); }
+
+/* ── MAIN ── */
+.main { margin-left: 255px; flex: 1; display: flex; flex-direction: column; }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(26,31,46,0.8);
+  backdrop-filter: blur(20px);
+  position: sticky; top: 0; z-index: 50;
+}
+.page-heading { font-family: 'Lora', serif; font-size: 20px; font-weight: 700; color: var(--putih); }
+.page-crumb { font-size: 11px; color: var(--teks-dim); margin-top: 2px; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 600; cursor: pointer;
+  border: none; transition: all 0.18s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  white-space: nowrap;
+}
+.btn-hijau { background: linear-gradient(135deg, var(--hijau), var(--hijau-light)); color: var(--putih); }
+.btn-hijau:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(27,107,69,0.5); }
+.btn-emas { background: linear-gradient(135deg, var(--emas), var(--emas-light)); color: #2D1A00; }
+.btn-emas:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(184,134,11,0.4); }
+.btn-outline {
+  background: transparent; color: var(--teks-dim);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.btn-outline:hover { color: var(--putih); border-color: rgba(255,255,255,0.3); }
+.btn-danger { background: rgba(192,57,43,0.15); color: #F1948A; border: 1px solid rgba(192,57,43,0.3); }
+.btn-sm { padding: 5px 11px; font-size: 11px; }
+
+/* ── CONTENT ── */
+.content { padding: 24px 28px; flex: 1; }
+
+/* ── PAGE ── */
+.page { display: none; animation: fadeUp 0.28s ease; }
+.page.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px;
+  backdrop-filter: blur(12px);
+  margin-bottom: 18px;
+}
+.card-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 16px; gap: 12px;
+}
+.card-title { font-family: 'Lora', serif; font-size: 15px; font-weight: 700; color: var(--putih); }
+.card-sub { font-size: 11px; color: var(--teks-dim); margin-top: 2px; }
+
+/* ── STAT CARDS ── */
+.stats-row { display: grid; gap: 14px; margin-bottom: 18px; }
+.s4 { grid-template-columns: repeat(4,1fr); }
+.s3 { grid-template-columns: repeat(3,1fr); }
+.s2 { grid-template-columns: repeat(2,1fr); }
+.stat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 13px; padding: 18px;
+  backdrop-filter: blur(10px); position: relative; overflow: hidden;
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-card::after {
+  content: ''; position: absolute; top: -20px; right: -20px;
+  width: 70px; height: 70px; border-radius: 50%;
+  background: var(--sc-accent, rgba(27,107,69,0.12));
+}
+.sc-hijau { --sc-accent: rgba(27,107,69,0.15); }
+.sc-emas { --sc-accent: rgba(184,134,11,0.15); }
+.sc-biru { --sc-accent: rgba(37,99,235,0.15); }
+.sc-merah { --sc-accent: rgba(192,57,43,0.15); }
+.stat-lbl { font-size: 10px; color: var(--teks-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.stat-val { font-family: 'Lora', serif; font-size: 22px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.stat-note { font-size: 10px; color: var(--teks-dim); }
+.c-hijau { color: #5DC99A; }
+.c-emas { color: #E8B94A; }
+.c-biru { color: #60A5FA; }
+.c-merah { color: #F87171; }
+.c-putih { color: var(--putih); }
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  text-align: left; padding: 9px 12px;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--teks-dim); border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody td {
+  padding: 11px 12px; font-size: 12.5px;
+  border-bottom: 1px solid rgba(43,180,120,0.05);
+  vertical-align: middle;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(43,180,120,0.04); }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 10.5px; font-weight: 600;
+}
+.b-sukses { background: rgba(22,163,74,0.15); color: #4ADE80; }
+.b-warning { background: rgba(217,119,6,0.15); color: #FCD34D; }
+.b-danger { background: rgba(192,57,43,0.15); color: #FCA5A5; }
+.b-info { background: rgba(37,99,235,0.15); color: #93C5FD; }
+.b-neutral { background: rgba(255,255,255,0.07); color: var(--teks-dim); }
+
+/* ── FORM ── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fg-1 { grid-template-columns: 1fr; }
+.fg-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { margin-bottom: 0; }
+.full { grid-column: 1/-1; }
+.form-label {
+  display: block; font-size: 10.5px; font-weight: 700;
+  color: var(--teks-dim); text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 6px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(43,180,120,0.2);
+  border-radius: 8px; padding: 9px 13px;
+  color: var(--putih);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; outline: none; transition: border-color 0.18s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--hijau-light);
+  background: rgba(27,107,69,0.08);
+}
+.form-select option { background: var(--abu-gelap); }
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-input[readonly] { color: var(--teks-dim); cursor: default; }
+.form-actions { display: flex; gap: 10px; margin-top: 18px; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* ── GRID LAYOUT ── */
+.grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-bottom: 18px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+
+/* ── RESULT BOX ── */
+.result-box {
+  background: linear-gradient(135deg, rgba(27,107,69,0.15), rgba(27,107,69,0.05));
+  border: 1px solid rgba(43,180,120,0.3);
+  border-radius: 10px; padding: 16px; margin-top: 16px;
+}
+.result-box .r-label { font-size: 10px; color: #5DC99A; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.result-box .r-value { font-family: 'Lora', serif; font-size: 20px; font-weight: 700; color: var(--putih); }
+.result-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.result-item { text-align: center; }
+
+/* ── ASET BOX ── */
+.aset-box {
+  background: linear-gradient(135deg, rgba(184,134,11,0.12), rgba(184,134,11,0.04));
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 16px;
+}
+.aset-box .a-name { font-family: 'Lora', serif; font-size: 20px; font-weight: 700; color: var(--putih); margin-bottom: 4px; }
+.aset-box .a-no { font-size: 11px; color: var(--teks-dim); margin-bottom: 16px; }
+.aset-items { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; }
+.aset-item { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; }
+.aset-item .ai-lbl { font-size: 10px; color: var(--teks-dim); margin-bottom: 4px; }
+.aset-item .ai-val { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #E8B94A; }
+
+/* ── JURNAL ITEM ── */
+.jurnal-masuk { color: #4ADE80; }
+.jurnal-keluar { color: #F87171; }
+
+/* ── LAPORAN ── */
+.laporan-section { margin-bottom: 20px; }
+.laporan-section-title {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--hijau-light);
+  padding: 8px 0; border-bottom: 1px solid var(--border); margin-bottom: 10px;
+}
+.laporan-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(43,180,120,0.04); font-size: 13px; }
+.laporan-row:last-child { border-bottom: none; }
+.laporan-row .lbl { color: var(--teks-dim); }
+.laporan-row .val { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+.laporan-total { background: rgba(27,107,69,0.12); border-radius: 8px; padding: 10px 12px; display: flex; justify-content: space-between; margin-top: 8px; }
+.laporan-total .lbl { font-weight: 700; color: var(--putih); font-size: 13px; }
+.laporan-total .val { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #5DC99A; }
+
+/* ── HARTA KEWAJIBAN ── */
+.hak-item { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--hijau-light); }
+.hak-item h4 { font-size: 13px; font-weight: 600; color: var(--putih); margin-bottom: 6px; }
+.hak-item p { font-size: 12px; color: var(--teks-dim); line-height: 1.6; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75); z-index: 200;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(5px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--abu-mid); border: 1px solid var(--border);
+  border-radius: 16px; width: 520px; max-width: 95vw;
+  max-height: 90vh; overflow-y: auto;
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn { from { transform: scale(0.95) translateY(10px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.modal-header { padding: 20px 22px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-family: 'Lora', serif; font-size: 17px; font-weight: 700; }
+.modal-close { background: none; border: none; color: var(--teks-dim); font-size: 20px; cursor: pointer; transition: color 0.2s; }
+.modal-close:hover { color: var(--putih); }
+.modal-body { padding: 20px 22px; }
+.modal-footer { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 22px; right: 22px;
+  background: var(--abu-mid); border: 1px solid var(--hijau-light);
+  border-radius: 10px; padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12.5px; z-index: 300;
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.3s ease; max-width: 300px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { border-color: var(--merah); }
+
+/* ── PASSWORD SCREEN ── */
+.pass-screen {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; min-height: 300px; text-align: center;
+}
+.pass-screen .pass-icon { font-size: 40px; margin-bottom: 12px; }
+.pass-screen h3 { font-family: 'Lora', serif; font-size: 18px; margin-bottom: 6px; }
+.pass-screen p { font-size: 12px; color: var(--teks-dim); margin-bottom: 20px; }
+.pass-input-wrap { display: flex; gap: 8px; width: 100%; max-width: 300px; }
+
+/* ── TABS ── */
+.tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.04); border-radius: 9px; padding: 4px; margin-bottom: 18px; width: fit-content; }
+.tab { padding: 7px 16px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.18s; color: var(--teks-dim); border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; }
+.tab.active { background: var(--hijau); color: var(--putih); }
+
+/* ── INFO BOX ── */
+.info-box { background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 12px; color: #93C5FD; line-height: 1.6; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(43,180,120,0.3); border-radius: 5px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="logo-area">
+    <div class="logo-icon">🕌</div>
+    <div class="logo-text">
+      <div class="nama">Koperasi Amanah</div>
+      <div class="instansi">Pengadilan Agama Ngamprah</div>
+    </div>
+  </div>
+
+  <nav class="nav-wrap">
+    <div class="nav-group">
+      <div class="nav-label">Utama</div>
+      <div class="nav-item active" onclick="nav('dashboard',this)">
+        <span class="nav-icon">📊</span> Dashboard
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Anggota</div>
+      <div class="nav-item" onclick="nav('anggota-daftar',this)"><span class="nav-icon">👥</span> Daftar Anggota</div>
+      <div class="nav-item" onclick="nav('anggota-daftar',this)"><span class="nav-icon">➕</span> Pendaftaran</div>
+      <div class="nav-item" onclick="nav('anggota-aset',this)"><span class="nav-icon">🔐</span> Aset Anggota</div>
+      <div class="nav-item" onclick="nav('anggota-hak',this)"><span class="nav-icon">📜</span> Hak & Kewajiban</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Pembiayaan</div>
+      <div class="nav-item" onclick="nav('biaya-simulasi',this)"><span class="nav-icon">🧮</span> Simulasi</div>
+      <div class="nav-item" onclick="nav('biaya-pengajuan',this)"><span class="nav-icon">📝</span> Pengajuan <span class="nav-badge">3</span></div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Tagihan</div>
+      <div class="nav-item" onclick="nav('tagihan-input',this)"><span class="nav-icon">🧾</span> Input Tagihan</div>
+      <div class="nav-item" onclick="nav('tagihan-rekap',this)"><span class="nav-icon">📋</span> Rekap Tagihan</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Transaksi</div>
+      <div class="nav-item" onclick="nav('trx-masuk',this)"><span class="nav-icon">💚</span> Uang Masuk</div>
+      <div class="nav-item" onclick="nav('trx-keluar',this)"><span class="nav-icon">🔴</span> Uang Keluar</div>
+      <div class="nav-item" onclick="nav('trx-jurnal',this)"><span class="nav-icon">📖</span> Jurnal Keuangan</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Laporan</div>
+      <div class="nav-item" onclick="nav('lap-bulanan',this)"><span class="nav-icon">📅</span> Laporan Bulanan</div>
+      <div class="nav-item" onclick="nav('lap-tahunan',this)"><span class="nav-icon">📆</span> Laporan Tahunan</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Sistem</div>
+      <div class="nav-item" onclick="nav('pengaturan',this)"><span class="nav-icon">⚙️</span> Pengaturan</div>
+    </div>
+  </nav>
+
+  <div class="sidebar-user">
+    <div class="user-av">PA</div>
+    <div>
+      <div class="user-nm">Pengurus Aktif</div>
+      <div class="user-rl">Bendahara Koperasi</div>
+    </div>
+    <button class="logout-btn" title="Keluar">⏏</button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-heading" id="pgTitle">Dashboard</div>
+      <div class="page-crumb" id="pgCrumb">Koperasi Amanah — Ringkasan Keuangan</div>
+    </div>
+    <div class="topbar-right">
+      <span style="font-size:12px;color:var(--teks-dim)" id="tglHari"></span>
+      <button class="btn btn-hijau" onclick="toast('✅ Fitur ekspor akan segera tersedia!')">📤 Ekspor</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══════ DASHBOARD ══════ -->
+    <div class="page active" id="p-dashboard">
+      <div class="stats-row s4">
+        <div class="stat-card sc-hijau">
+          <div class="stat-lbl">Total Kas</div>
+          <div class="stat-val c-hijau">Rp 127,9 jt</div>
+          <div class="stat-note">Posisi bulan berjalan</div>
+        </div>
+        <div class="stat-card sc-emas">
+          <div class="stat-lbl">Piutang Pokok</div>
+          <div class="stat-val c-emas">Rp 120,1 jt</div>
+          <div class="stat-note">Aktif dipinjam anggota</div>
+        </div>
+        <div class="stat-card sc-biru">
+          <div class="stat-lbl">Total Simpanan</div>
+          <div class="stat-val c-biru">Rp 170,6 jt</div>
+          <div class="stat-note">Pokok + Wajib + HR + Sukarela</div>
+        </div>
+        <div class="stat-card sc-merah">
+          <div class="stat-lbl">Total Anggota</div>
+          <div class="stat-val c-putih">48</div>
+          <div class="stat-note">Anggota aktif koperasi</div>
+        </div>
+      </div>
+
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Arus Kas Bulanan</div><div class="card-sub">Uang masuk vs uang keluar (Rp Juta)</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px;height:160px;padding:0 4px 4px">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+              <div style="width:100%;background:linear-gradient(180deg,#5DC99A,rgba(93,201,154,0.2));border-radius:4px 4px 0 0;height:90px"></div>
+              <div style="width:100%;background:linear-gradient(180deg,#F87171,rgba(248,113,113,0.2));border-radius:4px 4px 0 0;height:30px"></div>
+              <div style="font-size:9px;color:var(--teks-dim)">Okt</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+              <div style="width:100%;background:linear-gradient(180deg,#5DC99A,rgba(93,201,154,0.2));border-radius:4px 4px 0 0;height:110px"></div>
+              <div style="width:100%;background:linear-gradient(180deg,#F87171,rgba(248,113,113,0.2));border-radius:4px 4px 0 0;height:40px"></div>
+              <div style="font-size:9px;color:var(--teks-dim)">Nov</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+              <div style="width:100%;background:linear-gradient(180deg,#5DC99A,rgba(93,201,154,0.2));border-radius:4px 4px 0 0;height:130px"></div>
+              <div style="width:100%;background:linear-gradient(180deg,#F87171,rgba(248,113,113,0.2));border-radius:4px 4px 0 0;height:20px"></div>
+              <div style="font-size:9px;color:var(--teks-dim)">Des</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+              <div style="width:100%;background:linear-gradient(180deg,#5DC99A,rgba(93,201,154,0.2));border-radius:4px 4px 0 0;height:100px"></div>
+              <div style="width:100%;background:linear-gradient(180deg,#F87171,rgba(248,113,113,0.2));border-radius:4px 4px 0 0;height:35px"></div>
+              <div style="font-size:9px;color:var(--teks-dim)">Jan</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+              <div style="width:100%;background:linear-gradient(180deg,#5DC99A,rgba(93,201,154,0.2));border-radius:4px 4px 0 0;height:120px"></div>
+              <div style="width:100%;background:linear-gradient(180deg,#F87171,rgba(248,113,113,0.2));border-radius:4px 4px 0 0;height:14px"></div>
+              <div style="font-size:9px;color:var(--teks-dim)">Feb</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;margin-top:8px">
+            <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--teks-dim)"><div style="width:10px;height:10px;border-radius:2px;background:#5DC99A"></div>Masuk</div>
+            <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--teks-dim)"><div style="width:10px;height:10px;border-radius:2px;background:#F87171"></div>Keluar</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Komposisi Modal</div></div>
+          <div style="margin-top:4px">
+            <div style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="color:var(--teks-dim)">Simpanan Pokok</span><span class="mono c-emas">Rp 7.200.000</span></div>
+              <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:28%;background:linear-gradient(90deg,#E8B94A,#F5D27A);border-radius:5px"></div></div>
+            </div>
+            <div style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="color:var(--teks-dim)">Simpanan Wajib</span><span class="mono c-hijau">Rp 124.100.000</span></div>
+              <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:85%;background:linear-gradient(90deg,#5DC99A,#86EFAC);border-radius:5px"></div></div>
+            </div>
+            <div style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="color:var(--teks-dim)">Simpanan Hari Raya</span><span class="mono c-biru">Rp 39.300.000</span></div>
+              <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:42%;background:linear-gradient(90deg,#60A5FA,#93C5FD);border-radius:5px"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="color:var(--teks-dim)">Laba/Rugi Berjalan</span><span class="mono" style="color:#A78BFA">Rp 16.033.418</span></div>
+              <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden"><div style="height:100%;width:20%;background:linear-gradient(90deg,#A78BFA,#C4B5FD);border-radius:5px"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Transaksi Terbaru</div><button class="btn btn-outline btn-sm" onclick="nav('trx-jurnal',null)">Lihat Jurnal →</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tanggal</th><th>Keterangan</th><th>Anggota</th><th>Jenis</th><th>Jumlah</th></tr></thead>
+            <tbody>
+              <tr><td>28 Feb 2026</td><td>Simpanan Wajib</td><td>Budi Santoso</td><td><span class="badge b-sukses">Masuk</span></td><td class="mono jurnal-masuk">+200.000</td></tr>
+              <tr><td>28 Feb 2026</td><td>Angsuran Pokok + Ujroh</td><td>Siti Aminah</td><td><span class="badge b-sukses">Masuk</span></td><td class="mono jurnal-masuk">+1.250.000</td></tr>
+              <tr><td>27 Feb 2026</td><td>Operasional ATK</td><td>—</td><td><span class="badge b-danger">Keluar</span></td><td class="mono jurnal-keluar">−140.000</td></tr>
+              <tr><td>27 Feb 2026</td><td>Simpanan Hari Raya</td><td>Ahmad Fauzi</td><td><span class="badge b-sukses">Masuk</span></td><td class="mono jurnal-masuk">+500.000</td></tr>
+              <tr><td>26 Feb 2026</td><td>Pengambilan Simpanan Wajib</td><td>Rina Hartati</td><td><span class="badge b-danger">Keluar</span></td><td class="mono jurnal-keluar">−3.600.000</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ ANGGOTA — DAFTAR ══════ -->
+    <div class="page" id="p-anggota-daftar">
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Daftar & Pendaftaran Anggota</div><div class="card-sub">Total 48 anggota aktif</div></div>
+          <button class="btn btn-hijau" onclick="openModal('m-anggota-baru')">➕ Daftarkan Anggota</button>
+        </div>
+        <div style="margin-bottom:14px"><input class="form-input" style="max-width:280px" placeholder="🔍 Cari nama atau nomor anggota..."></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>No.</th><th>No. Anggota</th><th>Nama</th><th>Jabatan</th><th>Bergabung</th><th>Sp. Pokok</th><th>Sp. Wajib</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td class="mono">KA-001</td><td><b>Budi Santoso</b></td><td>Hakim</td><td>Jan 2020</td><td class="mono">150.000</td><td class="mono">5.400.000</td><td><span class="badge b-sukses">Aktif</span></td><td><button class="btn btn-outline btn-sm">Detail</button></td></tr>
+              <tr><td>2</td><td class="mono">KA-002</td><td><b>Siti Aminah</b></td><td>Panitera</td><td>Mar 2019</td><td class="mono">150.000</td><td class="mono">6.600.000</td><td><span class="badge b-sukses">Aktif</span></td><td><button class="btn btn-outline btn-sm">Detail</button></td></tr>
+              <tr><td>3</td><td class="mono">KA-003</td><td><b>Ahmad Fauzi</b></td><td>Staf</td><td>Jun 2021</td><td class="mono">150.000</td><td class="mono">3.800.000</td><td><span class="badge b-sukses">Aktif</span></td><td><button class="btn btn-outline btn-sm">Detail</button></td></tr>
+              <tr><td>4</td><td class="mono">KA-004</td><td><b>Rina Hartati</b></td><td>Jurusita</td><td>Okt 2020</td><td class="mono">150.000</td><td class="mono">4.800.000</td><td><span class="badge b-warning">Non-aktif</span></td><td><button class="btn btn-outline btn-sm">Detail</button></td></tr>
+              <tr><td>5</td><td class="mono">KA-005</td><td><b>Hendra Wijaya</b></td><td>Bendahara</td><td>Feb 2018</td><td class="mono">150.000</td><td class="mono">9.400.000</td><td><span class="badge b-sukses">Aktif</span></td><td><button class="btn btn-outline btn-sm">Detail</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ ANGGOTA — ASET ══════ -->
+    <div class="page" id="p-anggota-aset">
+      <div class="card" style="max-width:500px;margin:0 auto">
+        <div id="aset-login">
+          <div class="pass-screen">
+            <div class="pass-icon">🔐</div>
+            <h3>Cek Aset Anggota</h3>
+            <p>Masukkan nomor anggota Anda untuk melihat ringkasan aset secara real-time.</p>
+            <div class="pass-input-wrap">
+              <input class="form-input" id="inputNoAnggota" placeholder="Contoh: KA-001" style="flex:1">
+              <button class="btn btn-hijau" onclick="cekAset()">Lihat</button>
+            </div>
+            <p style="margin-top:10px;font-size:11px;color:var(--teks-dim)">Nomor anggota berfungsi sebagai kode akses Anda.</p>
+          </div>
+        </div>
+        <div id="aset-hasil" style="display:none">
+          <div class="aset-box">
+            <div class="a-name" id="asetNama">Budi Santoso</div>
+            <div class="a-no" id="asetNo">No. Anggota: KA-001 · Hakim</div>
+            <div class="aset-items">
+              <div class="aset-item"><div class="ai-lbl">Simpanan Pokok</div><div class="ai-val">Rp 150.000</div></div>
+              <div class="aset-item"><div class="ai-lbl">Simpanan Wajib</div><div class="ai-val">Rp 5.400.000</div></div>
+              <div class="aset-item"><div class="ai-lbl">Simpanan Hari Raya</div><div class="ai-val">Rp 1.200.000</div></div>
+              <div class="aset-item"><div class="ai-lbl">Simpanan Sukarela</div><div class="ai-val">Rp 500.000</div></div>
+            </div>
+          </div>
+          <div class="result-box" style="margin-top:0">
+            <div class="result-grid">
+              <div class="result-item"><div class="r-label">Sisa Pembiayaan</div><div class="r-value" style="font-size:16px;color:#F87171">Rp 8.250.000</div></div>
+              <div class="result-item"><div class="r-label">Angsuran/Bulan</div><div class="r-value" style="font-size:16px">Rp 1.250.000</div></div>
+              <div class="result-item"><div class="r-label">Sisa Bulan</div><div class="r-value" style="font-size:16px">7 bln</div></div>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:14px"><button class="btn btn-outline btn-sm" onclick="document.getElementById('aset-login').style.display='block';document.getElementById('aset-hasil').style.display='none'">← Kembali</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ ANGGOTA — HAK & KEWAJIBAN ══════ -->
+    <div class="page" id="p-anggota-hak">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Hak & Kewajiban Anggota</div><div class="card-sub">Berdasarkan AD/ART Koperasi Amanah</div></div>
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab(this,'hak-tab')">Hak Anggota</button>
+          <button class="tab" onclick="switchTab(this,'kwjb-tab')">Kewajiban Anggota</button>
+        </div>
+        <div id="hak-tab">
+          <div class="hak-item"><h4>1. Menghadiri Rapat Anggota</h4><p>Setiap anggota berhak hadir, berpendapat, dan memberikan suara dalam Rapat Anggota Tahunan (RAT) maupun rapat lainnya yang diselenggarakan koperasi.</p></div>
+          <div class="hak-item"><h4>2. Memilih dan Dipilih</h4><p>Anggota berhak untuk memilih dan dipilih menjadi pengurus atau pengawas koperasi sesuai ketentuan yang berlaku.</p></div>
+          <div class="hak-item"><h4>3. Mendapatkan Pelayanan</h4><p>Anggota berhak mendapatkan pelayanan simpan pinjam, pembiayaan, dan layanan lainnya dari koperasi secara adil dan transparan.</p></div>
+          <div class="hak-item"><h4>4. Mendapatkan SHU</h4><p>Anggota berhak mendapatkan bagian dari Sisa Hasil Usaha (SHU) sesuai dengan partisipasi dan kontribusi masing-masing anggota.</p></div>
+          <div class="hak-item"><h4>5. Pengambilan Simpanan</h4><p>Anggota berhak mengambil simpanan sukarela dan simpanan hari raya sesuai dengan ketentuan dan kesepakatan yang berlaku.</p></div>
+        </div>
+        <div id="kwjb-tab" style="display:none">
+          <div class="hak-item" style="border-left-color:var(--emas-light)"><h4>1. Membayar Simpanan Wajib</h4><p>Setiap anggota wajib membayar simpanan wajib setiap bulan sesuai nominal yang telah ditetapkan dalam Rapat Anggota.</p></div>
+          <div class="hak-item" style="border-left-color:var(--emas-light)"><h4>2. Membayar Simpanan Pokok</h4><p>Anggota baru wajib membayar simpanan pokok satu kali pada saat pertama kali mendaftar sebagai anggota koperasi.</p></div>
+          <div class="hak-item" style="border-left-color:var(--emas-light)"><h4>3. Mematuhi AD/ART</h4><p>Setiap anggota wajib mematuhi Anggaran Dasar dan Anggaran Rumah Tangga serta keputusan yang telah ditetapkan dalam Rapat Anggota.</p></div>
+          <div class="hak-item" style="border-left-color:var(--emas-light)"><h4>4. Melunasi Pembiayaan</h4><p>Anggota yang mendapatkan pembiayaan wajib melunasi angsuran pokok beserta ujroh sesuai jadwal yang telah disepakati.</p></div>
+          <div class="hak-item" style="border-left-color:var(--emas-light)"><h4>5. Melaporkan Perubahan Data</h4><p>Anggota wajib melaporkan perubahan data diri kepada pengurus koperasi agar administrasi tetap akurat dan ter-update.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ PEMBIAYAAN — SIMULASI ══════ -->
+    <div class="page" id="p-biaya-simulasi">
+      <div class="card" style="max-width:600px">
+        <div class="card-header"><div class="card-title">Simulasi Pembiayaan</div><div class="card-sub">Hitung estimasi angsuran sebelum mengajukan</div></div>
+        <div class="info-box">💡 Ujroh dihitung sebesar <b>1% flat per bulan</b> dari total pokok pembiayaan (sisa pembiayaan + pembiayaan baru). Hasil ujroh dibulatkan ke ribuan terdekat.</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Sisa Pembiayaan Sebelumnya (Rp)</label>
+            <input class="form-input" type="number" id="sim-sisa" placeholder="0" oninput="hitungSimulasi()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jumlah Pembiayaan Baru (Rp)</label>
+            <input class="form-input" type="number" id="sim-baru" placeholder="0" oninput="hitungSimulasi()">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Lama Angsuran (Bulan)</label>
+            <select class="form-select" id="sim-lama" onchange="hitungSimulasi()">
+              <option value="">-- Pilih --</option>
+              <option value="3">3 Bulan</option>
+              <option value="6">6 Bulan</option>
+              <option value="10">10 Bulan</option>
+              <option value="12">12 Bulan</option>
+              <option value="18">18 Bulan</option>
+              <option value="24">24 Bulan</option>
+            </select>
+          </div>
+        </div>
+        <div class="result-box" id="sim-result" style="display:none">
+          <div class="result-grid">
+            <div class="result-item"><div class="r-label">Total Pokok</div><div class="r-value" id="sr-pokok">—</div></div>
+            <div class="result-item"><div class="r-label">Ujroh/Bulan</div><div class="r-value" id="sr-ujroh" style="color:#E8B94A">—</div></div>
+            <div class="result-item"><div class="r-label">Angsuran/Bulan</div><div class="r-value" id="sr-angsur" style="color:#5DC99A">—</div></div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <div><span style="color:var(--teks-dim)">Total Ujroh (keuntungan koperasi): </span><span id="sr-total-ujroh" class="mono c-emas"></span></div>
+            <div><span style="color:var(--teks-dim)">Akhir Pembiayaan: </span><span id="sr-akhir" class="mono"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ PEMBIAYAAN — PENGAJUAN ══════ -->
+    <div class="page" id="p-biaya-pengajuan">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Form Pengajuan Pembiayaan</div></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Nomor Anggota</label><input class="form-input" id="pj-no" placeholder="KA-001" oninput="autoNama()"></div>
+            <div class="form-group"><label class="form-label">Nama Anggota</label><input class="form-input" id="pj-nama" placeholder="Otomatis terisi" readonly></div>
+            <div class="form-group"><label class="form-label">Jenis Pembiayaan</label>
+              <select class="form-select">
+                <option>Pembiayaan Reguler</option>
+                <option>Pembiayaan Khusus</option>
+                <option>Pembiayaan Penugasan</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Sisa Pembiayaan Sebelumnya (Rp)</label><input class="form-input" type="number" id="pj-sisa" placeholder="0" oninput="hitungPengajuan()"></div>
+            <div class="form-group"><label class="form-label">Jumlah Pembiayaan Baru (Rp)</label><input class="form-input" type="number" id="pj-baru" placeholder="0" oninput="hitungPengajuan()"></div>
+            <div class="form-group"><label class="form-label">Lama Angsuran (Bulan)</label>
+              <select class="form-select" id="pj-lama" onchange="hitungPengajuan()">
+                <option value="">-- Pilih --</option>
+                <option value="3">3 Bulan</option><option value="6">6 Bulan</option>
+                <option value="10">10 Bulan</option><option value="12">12 Bulan</option>
+                <option value="18">18 Bulan</option><option value="24">24 Bulan</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Mulai Bulan Pembayaran</label><input class="form-input" type="month" id="pj-mulai" onchange="hitungPengajuan()"></div>
+            <div class="form-group"><label class="form-label">Ujroh/Bulan (Rp)</label><input class="form-input" id="pj-ujroh" readonly></div>
+            <div class="form-group"><label class="form-label">Angsuran/Bulan (Rp)</label><input class="form-input" id="pj-angsur" readonly></div>
+            <div class="form-group"><label class="form-label">Akhir Pembiayaan</label><input class="form-input" id="pj-akhir" readonly></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-hijau" onclick="toast('✅ Pengajuan berhasil dikirim ke pengurus!')">📤 Ajukan Pembiayaan</button>
+            <button class="btn btn-outline">Batal</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Pengajuan Masuk</div><div class="card-sub">Menunggu persetujuan pengurus</div></div>
+          <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:14px;margin-bottom:10px;border-left:3px solid #FCD34D">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:13px">Ahmad Fauzi</b><span class="badge b-warning">⏳ Review</span></div>
+            <div style="font-size:11px;color:var(--teks-dim)">KA-003 · Reguler · Rp 5.000.000 · 12 bln</div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn btn-hijau btn-sm" onclick="toast('✅ Pengajuan disetujui!')">✓ Setuju</button>
+              <button class="btn btn-danger btn-sm" onclick="toast('❌ Pengajuan ditolak.')">✗ Tolak</button>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:14px;margin-bottom:10px;border-left:3px solid #FCD34D">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:13px">Hendra Wijaya</b><span class="badge b-warning">⏳ Review</span></div>
+            <div style="font-size:11px;color:var(--teks-dim)">KA-005 · Khusus · Rp 10.000.000 · 18 bln</div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn btn-hijau btn-sm" onclick="toast('✅ Pengajuan disetujui!')">✓ Setuju</button>
+              <button class="btn btn-danger btn-sm" onclick="toast('❌ Pengajuan ditolak.')">✗ Tolak</button>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:14px;border-left:3px solid #4ADE80">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:13px">Siti Aminah</b><span class="badge b-sukses">✓ Disetujui</span></div>
+            <div style="font-size:11px;color:var(--teks-dim)">KA-002 · Penugasan · Rp 3.000.000 · 6 bln</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TAGIHAN — INPUT ══════ -->
+    <div class="page" id="p-tagihan-input">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Input Tagihan Bulanan</div><div class="card-sub">Input tagihan per anggota untuk ditagihkan melalui bendahara kantor</div></div>
+        <div class="info-box">📌 Tagihan ini akan dipotong melalui <b>bendahara kantor Pengadilan Agama Ngamprah</b> via rekening gaji masing-masing anggota.</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Pilih Anggota</label>
+            <select class="form-select">
+              <option>-- Pilih Anggota --</option>
+              <option>KA-001 — Budi Santoso</option>
+              <option>KA-002 — Siti Aminah</option>
+              <option>KA-003 — Ahmad Fauzi</option>
+              <option>KA-004 — Rina Hartati</option>
+              <option>KA-005 — Hendra Wijaya</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Bulan Tagihan</label><input class="form-input" type="month"></div>
+          <div class="form-group"><label class="form-label">Simpanan Pokok (Rp)</label><input class="form-input" type="number" placeholder="0 (jika anggota baru)"></div>
+          <div class="form-group"><label class="form-label">Simpanan Wajib (Rp)</label><input class="form-input" type="number" placeholder="200.000"></div>
+          <div class="form-group"><label class="form-label">Simpanan Hari Raya (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Simpanan Sukarela (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Angsuran Pokok (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Ujroh (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-hijau" onclick="toast('✅ Tagihan anggota berhasil disimpan!')">💾 Simpan Tagihan</button>
+          <button class="btn btn-outline">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TAGIHAN — REKAP ══════ -->
+    <div class="page" id="p-tagihan-rekap">
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Rekap Tagihan Bulanan</div><div class="card-sub">Generate & ekspor tagihan untuk bendahara kantor</div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="form-input" type="month" style="width:auto" value="2026-02">
+            <button class="btn btn-hijau" onclick="toast('✅ Rekap tagihan berhasil di-generate!')">⚡ Generate</button>
+            <button class="btn btn-emas" onclick="toast('📊 Mengekspor ke Excel...')">📊 Ekspor Excel</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>No. Anggota</th><th>Nama</th><th>Sp. Pokok</th><th>Sp. Wajib</th><th>Sp. Hari Raya</th><th>Sp. Sukarela</th><th>Angsuran</th><th>Ujroh</th><th>Total Tagihan</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">KA-001</td><td><b>Budi Santoso</b></td><td class="mono">0</td><td class="mono">200.000</td><td class="mono">0</td><td class="mono">0</td><td class="mono">900.000</td><td class="mono">100.000</td><td class="mono c-emas"><b>1.200.000</b></td></tr>
+              <tr><td class="mono">KA-002</td><td><b>Siti Aminah</b></td><td class="mono">0</td><td class="mono">200.000</td><td class="mono">500.000</td><td class="mono">0</td><td class="mono">650.000</td><td class="mono">75.000</td><td class="mono c-emas"><b>1.425.000</b></td></tr>
+              <tr><td class="mono">KA-003</td><td><b>Ahmad Fauzi</b></td><td class="mono">0</td><td class="mono">200.000</td><td class="mono">300.000</td><td class="mono">100.000</td><td class="mono">0</td><td class="mono">0</td><td class="mono c-emas"><b>600.000</b></td></tr>
+              <tr><td class="mono">KA-004</td><td><b>Rina Hartati</b></td><td class="mono">0</td><td class="mono">200.000</td><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="mono c-emas"><b>200.000</b></td></tr>
+              <tr><td class="mono">KA-005</td><td><b>Hendra Wijaya</b></td><td class="mono">0</td><td class="mono">200.000</td><td class="mono">0</td><td class="mono">200.000</td><td class="mono">1.100.000</td><td class="mono">120.000</td><td class="mono c-emas"><b>1.620.000</b></td></tr>
+            </tbody>
+            <tfoot>
+              <tr style="background:rgba(27,107,69,0.1)">
+                <td colspan="2"><b>TOTAL</b></td>
+                <td class="mono"><b>0</b></td>
+                <td class="mono"><b>1.000.000</b></td>
+                <td class="mono"><b>800.000</b></td>
+                <td class="mono"><b>300.000</b></td>
+                <td class="mono"><b>2.650.000</b></td>
+                <td class="mono"><b>295.000</b></td>
+                <td class="mono c-hijau"><b>5.045.000</b></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TRANSAKSI — UANG MASUK ══════ -->
+    <div class="page" id="p-trx-masuk">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Input Uang Masuk</div><div class="card-sub">Catat semua pemasukan koperasi</div></div>
+        <div class="form-grid">
+          <div class="form-group full"><label class="form-label">Tanggal Transaksi</label><input class="form-input" type="date"></div>
+        </div>
+
+        <div style="font-size:11px;font-weight:700;color:var(--hijau-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;margin-top:4px">— Terkait Anggota (pilih anggota dulu)</div>
+        <div class="form-grid">
+          <div class="form-group full"><label class="form-label">Pilih Anggota</label>
+            <select class="form-select">
+              <option>-- Pilih Anggota --</option>
+              <option>KA-001 — Budi Santoso</option>
+              <option>KA-002 — Siti Aminah</option>
+              <option>KA-003 — Ahmad Fauzi</option>
+              <option>KA-004 — Rina Hartati</option>
+              <option>KA-005 — Hendra Wijaya</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Simpanan Pokok (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Simpanan Wajib (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Simpanan Hari Raya (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Simpanan Sukarela (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Angsuran Pokok (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Ujroh (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+        </div>
+
+        <div class="divider"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--emas-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">— Non Anggota (input langsung)</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Pemasukan Warung Kejujuran (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Keterangan</label><input class="form-input" placeholder="Opsional..."></div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-hijau" onclick="toast('✅ Uang masuk berhasil dicatat!')">💾 Simpan Transaksi</button>
+          <button class="btn btn-outline">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TRANSAKSI — UANG KELUAR ══════ -->
+    <div class="page" id="p-trx-keluar">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Input Uang Keluar</div><div class="card-sub">Catat semua pengeluaran koperasi</div></div>
+        <div class="form-grid">
+          <div class="form-group full"><label class="form-label">Tanggal Transaksi</label><input class="form-input" type="date"></div>
+        </div>
+
+        <div style="font-size:11px;font-weight:700;color:var(--hijau-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;margin-top:4px">— Terkait Anggota (pilih anggota dulu)</div>
+        <div class="form-grid">
+          <div class="form-group full"><label class="form-label">Pilih Anggota</label>
+            <select class="form-select">
+              <option>-- Pilih Anggota --</option>
+              <option>KA-001 — Budi Santoso</option>
+              <option>KA-002 — Siti Aminah</option>
+              <option>KA-003 — Ahmad Fauzi</option>
+              <option>KA-004 — Rina Hartati</option>
+              <option>KA-005 — Hendra Wijaya</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Pengambilan Sp. Pokok (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Pengambilan Sp. Wajib (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Pengambilan Sp. Hari Raya (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Pengambilan Sp. Sukarela (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Pembagian SHU (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+        </div>
+
+        <div class="divider"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--emas-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">— Operasional (input langsung)</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Belanja Modal Warung (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">ATK (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Hibah (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Uang Rapat (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+          <div class="form-group full"><label class="form-label">Keterangan</label><input class="form-input" placeholder="Opsional..."></div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-hijau" onclick="toast('✅ Uang keluar berhasil dicatat!')">💾 Simpan Transaksi</button>
+          <button class="btn btn-outline">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ TRANSAKSI — JURNAL ══════ -->
+    <div class="page" id="p-trx-jurnal">
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Jurnal Keuangan</div><div class="card-sub">Rekap seluruh arus kas masuk dan keluar</div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select class="form-select" style="width:auto;padding:7px 12px"><option>Februari 2026</option><option>Januari 2026</option><option>Desember 2025</option></select>
+            <button class="btn btn-emas" onclick="toast('📊 Mengekspor jurnal ke Excel...')">📊 Ekspor</button>
+          </div>
+        </div>
+        <div class="stats-row s3" style="margin-bottom:16px">
+          <div class="stat-card sc-hijau"><div class="stat-lbl">Total Masuk</div><div class="stat-val c-hijau" style="font-size:18px">Rp 50.103.400</div></div>
+          <div class="stat-card sc-merah"><div class="stat-lbl">Total Keluar</div><div class="stat-val c-merah" style="font-size:18px">Rp 140.000</div></div>
+          <div class="stat-card sc-emas"><div class="stat-lbl">Selisih Bersih</div><div class="stat-val c-emas" style="font-size:18px">Rp 49.963.400</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tanggal</th><th>Keterangan</th><th>Anggota</th><th>Debit (+)</th><th>Kredit (−)</th><th>Saldo</th></tr></thead>
+            <tbody>
+              <tr><td>01 Feb</td><td>Saldo Awal</td><td>—</td><td>—</td><td>—</td><td class="mono c-emas"><b>77.810.157</b></td></tr>
+              <tr><td>05 Feb</td><td>Simpanan Wajib</td><td>Budi Santoso</td><td class="mono jurnal-masuk">4.800.000</td><td>—</td><td class="mono">82.610.157</td></tr>
+              <tr><td>08 Feb</td><td>Simpanan Hari Raya</td><td>Siti Aminah</td><td class="mono jurnal-masuk">4.470.000</td><td>—</td><td class="mono">87.080.157</td></tr>
+              <tr><td>10 Feb</td><td>Angsuran Pokok</td><td>Ahmad Fauzi</td><td class="mono jurnal-masuk">38.400.100</td><td>—</td><td class="mono">125.480.257</td></tr>
+              <tr><td>10 Feb</td><td>Ujroh</td><td>Ahmad Fauzi</td><td class="mono jurnal-masuk">1.905.000</td><td>—</td><td class="mono">127.385.257</td></tr>
+              <tr><td>12 Feb</td><td>Simpanan Pokok (anggota baru)</td><td>Anggota Baru</td><td class="mono jurnal-masuk">150.000</td><td>—</td><td class="mono">127.535.257</td></tr>
+              <tr><td>15 Feb</td><td>Keuntungan Usaha Warung</td><td>—</td><td class="mono jurnal-keluar">−370.500</td><td>—</td><td class="mono">127.164.757</td></tr>
+              <tr><td>20 Feb</td><td>Operasional ATK</td><td>—</td><td>—</td><td class="mono jurnal-keluar">140.000</td><td class="mono">127.024.757</td></tr>
+              <tr><td>28 Feb</td><td>Angsuran Penugasan</td><td>Hendra Wijaya</td><td class="mono jurnal-masuk">748.800</td><td>—</td><td class="mono c-emas"><b>127.773.557</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ LAPORAN — BULANAN ══════ -->
+    <div class="page" id="p-lap-bulanan">
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="form-group" style="margin:0;flex:1"><label class="form-label">Bulan & Tahun</label><input class="form-input" type="month" value="2026-02"></div>
+          <div style="margin-top:20px;display:flex;gap:8px">
+            <button class="btn btn-hijau" onclick="toast('✅ Laporan berhasil di-generate!')">⚡ Generate</button>
+            <button class="btn btn-emas" onclick="toast('📊 Ekspor ke Excel...')">📊 Excel</button>
+            <button class="btn btn-outline" onclick="toast('📄 Ekspor ke PDF...')">📄 PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- NERACA -->
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">Neraca</div><div class="card-sub">Per Februari 2026</div></div></div>
+          <div class="laporan-section">
+            <div class="laporan-section-title">A. ASET</div>
+            <div class="laporan-row"><span class="lbl">101 — Kas</span><span class="val mono">Rp 127.773.557</span></div>
+            <div class="laporan-row"><span class="lbl">102 — Piutang Pokok Anggota</span><span class="val mono">Rp 120.128.168</span></div>
+            <div class="laporan-row"><span class="lbl">103 — Piutang Non Anggota</span><span class="val mono">Rp 4.709.589</span></div>
+            <div class="laporan-row"><span class="lbl">104 — Pembiayaan Penugasan</span><span class="val mono">Rp 3.075.800</span></div>
+            <div class="laporan-total"><span class="lbl">Total Aset</span><span class="val">Rp 255.687.114</span></div>
+          </div>
+          <div class="laporan-section">
+            <div class="laporan-section-title">B. MODAL</div>
+            <div class="laporan-row"><span class="lbl">201 — Simpanan Pokok</span><span class="val mono">Rp 7.200.000</span></div>
+            <div class="laporan-row"><span class="lbl">202 — Simpanan Wajib</span><span class="val mono">Rp 124.100.000</span></div>
+            <div class="laporan-total"><span class="lbl">Total Modal</span><span class="val">Rp 131.300.000</span></div>
+          </div>
+          <div class="laporan-section">
+            <div class="laporan-section-title">C. HUTANG</div>
+            <div class="laporan-row"><span class="lbl">301 — Simpanan Hari Raya 2026</span><span class="val mono">Rp 39.300.000</span></div>
+            <div class="laporan-total"><span class="lbl">Total Hutang</span><span class="val">Rp 39.300.000</span></div>
+          </div>
+          <div class="laporan-section">
+            <div class="laporan-section-title">G. LABA / RUGI</div>
+            <div class="laporan-row"><span class="lbl">701 — Laba/Rugi Bulan Berjalan</span><span class="val mono c-hijau">Rp 16.033.418</span></div>
+            <div class="laporan-row"><span class="lbl">702 — Pembagian SHU</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">703 — Pembulatan Bagi SHU</span><span class="val mono">Rp 0</span></div>
+          </div>
+          <div style="background:rgba(27,107,69,0.15);border-radius:8px;padding:12px;margin-top:4px">
+            <div class="laporan-row" style="padding:3px 0"><span style="font-weight:700;color:var(--putih)">Ekuitas</span><span class="mono c-hijau">Rp 127.913.558</span></div>
+            <div class="laporan-row" style="padding:3px 0;border:none"><span style="font-weight:700;color:var(--putih)">Liabilitas</span><span class="mono c-emas">Rp 186.633.418</span></div>
+          </div>
+        </div>
+
+        <!-- LABA RUGI -->
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">Laporan Laba Rugi</div><div class="card-sub">Periode Februari 2026</div></div></div>
+          <div class="laporan-section">
+            <div class="laporan-section-title">UANG MASUK</div>
+            <div class="laporan-row"><span class="lbl">101 — Simpanan Pokok</span><span class="val mono">Rp 150.000</span></div>
+            <div class="laporan-row"><span class="lbl">102 — Simpanan Wajib</span><span class="val mono">Rp 4.800.000</span></div>
+            <div class="laporan-row"><span class="lbl">103 — Simpanan Hari Raya</span><span class="val mono">Rp 4.470.000</span></div>
+            <div class="laporan-row"><span class="lbl">104 — Simpanan Sukarela</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">105 — Angsuran Pokok</span><span class="val mono">Rp 38.400.100</span></div>
+            <div class="laporan-row"><span class="lbl">106 — Ujroh</span><span class="val mono">Rp 1.905.000</span></div>
+            <div class="laporan-row"><span class="lbl">107 — Keuntungan Usaha</span><span class="val mono c-merah">−Rp 370.500</span></div>
+            <div class="laporan-row"><span class="lbl">108 — Angsuran Penugasan</span><span class="val mono">Rp 748.800</span></div>
+            <div class="laporan-total"><span class="lbl">Total Masuk</span><span class="val">Rp 50.103.400</span></div>
+          </div>
+          <div class="laporan-section">
+            <div class="laporan-section-title">UANG KELUAR</div>
+            <div class="laporan-row"><span class="lbl">201 — Pembiayaan Baru</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">202 — Keluar Keanggotaan</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">203 — Operasional</span><span class="val mono">Rp 140.000</span></div>
+            <div class="laporan-row"><span class="lbl">204 — Pengambilan Sp. Hari Raya</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">205 — Pengambilan Sp. Sukarela</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">206 — Pembagian SHU</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">207 — Modal Usaha</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-row"><span class="lbl">208 — Pembiayaan Penugasan</span><span class="val mono">Rp 0</span></div>
+            <div class="laporan-total"><span class="lbl">Total Keluar</span><span class="val c-merah">Rp 140.000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ LAPORAN — TAHUNAN ══════ -->
+    <div class="page" id="p-lap-tahunan">
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="form-group" style="margin:0"><label class="form-label">Tahun</label>
+            <select class="form-select"><option>2026</option><option>2025</option><option>2024</option></select>
+          </div>
+          <div style="margin-top:20px;display:flex;gap:8px">
+            <button class="btn btn-hijau" onclick="toast('✅ Laporan tahunan berhasil di-generate!')">⚡ Generate</button>
+            <button class="btn btn-emas" onclick="toast('📊 Ekspor ke Excel...')">📊 Excel</button>
+            <button class="btn btn-outline" onclick="toast('📄 Ekspor ke PDF...')">📄 PDF</button>
+          </div>
+        </div>
+      </div>
+      <div class="stats-row s4">
+        <div class="stat-card sc-hijau"><div class="stat-lbl">Total Masuk 2025</div><div class="stat-val c-hijau" style="font-size:18px">Rp 601,2 jt</div></div>
+        <div class="stat-card sc-merah"><div class="stat-lbl">Total Keluar 2025</div><div class="stat-val c-merah" style="font-size:18px">Rp 1,68 jt</div></div>
+        <div class="stat-card sc-emas"><div class="stat-lbl">Laba/Rugi 2025</div><div class="stat-val c-emas" style="font-size:18px">Rp 192,4 jt</div></div>
+        <div class="stat-card sc-biru"><div class="stat-lbl">Total Ujroh 2025</div><div class="stat-val c-biru" style="font-size:18px">Rp 22,8 jt</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Rekap Per Bulan — 2025</div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Bulan</th><th>Sp. Wajib</th><th>Sp. HR</th><th>Angsuran</th><th>Ujroh</th><th>Warung</th><th>Total Masuk</th><th>Total Keluar</th><th>Selisih</th></tr></thead>
+            <tbody>
+              <tr><td>Januari</td><td class="mono">4.800.000</td><td class="mono">2.100.000</td><td class="mono">35.200.000</td><td class="mono">1.800.000</td><td class="mono">450.000</td><td class="mono c-hijau">44.350.000</td><td class="mono c-merah">140.000</td><td class="mono c-emas">44.210.000</td></tr>
+              <tr><td>Februari</td><td class="mono">4.800.000</td><td class="mono">4.470.000</td><td class="mono">38.400.100</td><td class="mono">1.905.000</td><td class="mono">−370.500</td><td class="mono c-hijau">50.103.400</td><td class="mono c-merah">140.000</td><td class="mono c-emas">49.963.400</td></tr>
+              <tr><td colspan="9" style="text-align:center;color:var(--teks-dim);font-size:12px;padding:16px">— Data bulan berikutnya akan muncul setelah diinput —</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════ PENGATURAN ══════ -->
+    <div class="page" id="p-pengaturan">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'set-profil')">Profil Koperasi</button>
+        <button class="tab" onclick="switchTab(this,'set-pengguna')">Manajemen Pengguna</button>
+        <button class="tab" onclick="switchTab(this,'set-param')">Parameter Keuangan</button>
+        <button class="tab" onclick="switchTab(this,'set-kas')">Kas Awal</button>
+      </div>
+
+      <div id="set-profil">
+        <div class="card" style="max-width:640px">
+          <div class="card-header"><div class="card-title">Profil Koperasi</div></div>
+          <div class="form-grid">
+            <div class="form-group full"><label class="form-label">Nama Koperasi</label><input class="form-input" value="Koperasi Amanah Pengadilan Agama Ngamprah"></div>
+            <div class="form-group"><label class="form-label">Nomor Badan Hukum</label><input class="form-input" placeholder="No. BH Koperasi"></div>
+            <div class="form-group"><label class="form-label">Tahun Berdiri</label><input class="form-input" placeholder="2010"></div>
+            <div class="form-group full"><label class="form-label">Alamat</label><textarea class="form-textarea">Jl. Ngamprah, Kabupaten Bandung Barat, Jawa Barat</textarea></div>
+            <div class="form-group"><label class="form-label">Ketua</label><input class="form-input" placeholder="Nama Ketua"></div>
+            <div class="form-group"><label class="form-label">Bendahara</label><input class="form-input" placeholder="Nama Bendahara"></div>
+          </div>
+          <div class="form-actions"><button class="btn btn-hijau" onclick="toast('✅ Profil koperasi disimpan!')">💾 Simpan</button></div>
+        </div>
+      </div>
+
+      <div id="set-pengguna" style="display:none">
+        <div class="card" style="max-width:640px">
+          <div class="card-header"><div class="card-title">Manajemen Pengguna</div><button class="btn btn-hijau btn-sm" onclick="toast('Fitur tambah pengguna akan segera tersedia!')">+ Tambah Pengguna</button></div>
+          <table>
+            <thead><tr><th>Nama</th><th>Jabatan</th><th>Username</th><th>Hak Akses</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <tr><td><b>Ahmad Fauzi</b></td><td>Ketua</td><td class="mono">ketua.amanah</td><td><span class="badge b-sukses">Admin Penuh</span></td><td><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+              <tr><td><b>Hendra Wijaya</b></td><td>Bendahara</td><td class="mono">bendahara.amanah</td><td><span class="badge b-info">Keuangan</span></td><td><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+              <tr><td><b>Siti Aminah</b></td><td>Sekretaris</td><td class="mono">sekretaris.amanah</td><td><span class="badge b-neutral">Lihat Saja</span></td><td><button class="btn btn-outline btn-sm">Edit</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="set-param" style="display:none">
+        <div class="card" style="max-width:640px">
+          <div class="card-header"><div class="card-title">Parameter Keuangan</div><div class="card-sub">Perubahan parameter akan berlaku untuk transaksi berikutnya</div></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Simpanan Pokok (Rp)</label><input class="form-input" type="number" value="150000"></div>
+            <div class="form-group"><label class="form-label">Simpanan Wajib/Bulan (Rp)</label><input class="form-input" type="number" value="200000"></div>
+            <div class="form-group"><label class="form-label">Ujroh (%/bulan dari total pokok)</label><input class="form-input" type="number" value="1" step="0.1"></div>
+            <div class="form-group"><label class="form-label">Pembulatan Ujroh</label>
+              <select class="form-select"><option>Ke ribuan terdekat (atas)</option><option>Ke ribuan terdekat (bawah)</option></select>
+            </div>
+          </div>
+          <div class="form-actions"><button class="btn btn-hijau" onclick="toast('✅ Parameter keuangan disimpan!')">💾 Simpan</button></div>
+        </div>
+      </div>
+
+      <div id="set-kas" style="display:none">
+        <div class="card" style="max-width:640px">
+          <div class="card-header"><div class="card-title">Posisi Kas Awal</div><div class="card-sub">Digunakan sebagai titik mulai perhitungan jurnal keuangan</div></div>
+          <div class="info-box">⚠️ Kas awal hanya perlu diset sekali saat pertama kali sistem digunakan. Setelah itu, saldo akan dihitung otomatis dari jurnal transaksi.</div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Tanggal Mulai Pembukuan</label><input class="form-input" type="date"></div>
+            <div class="form-group"><label class="form-label">Saldo Kas Awal (Rp)</label><input class="form-input" type="number" placeholder="0"></div>
+            <div class="form-group full"><label class="form-label">Keterangan</label><input class="form-input" placeholder="Saldo per tanggal pembukuan pertama"></div>
+          </div>
+          <div class="form-actions"><button class="btn btn-hijau" onclick="toast('✅ Kas awal berhasil disimpan!')">💾 Simpan Kas Awal</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+</div>
+
+<!-- ══ MODAL ANGGOTA BARU ══ -->
+<div class="modal-overlay" id="m-anggota-baru">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Pendaftaran Anggota Baru</div>
+      <button class="modal-close" onclick="closeModal('m-anggota-baru')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" placeholder="Nama sesuai SK"></div>
+        <div class="form-group"><label class="form-label">NIP</label><input class="form-input" placeholder="19XXXXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" placeholder="Hakim / Panitera / Staf..."></div>
+        <div class="form-group"><label class="form-label">No. Rekening Gaji</label><input class="form-input" placeholder="Rekening bank gaji"></div>
+        <div class="form-group"><label class="form-label">Bank</label><select class="form-select"><option>BRI</option><option>BNI</option><option>Mandiri</option><option>BTN</option></select></div>
+        <div class="form-group"><label class="form-label">Tanggal Bergabung</label><input class="form-input" type="date"></div>
+        <div class="form-group full"><label class="form-label">Simpanan Pokok (Rp)</label><input class="form-input" type="number" value="150000" readonly></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('m-anggota-baru')">Batal</button>
+      <button class="btn btn-hijau" onclick="closeModal('m-anggota-baru');toast('✅ Anggota baru berhasil didaftarkan!')">Daftarkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toastEl"><span id="toastMsg"></span></div>
+
+<script>
+// ── TANGGAL ──
+const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+const now = new Date();
+document.getElementById('tglHari').textContent = `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()}`;
+
+// ── NAVIGASI ──
+const pageMap = {
+  'dashboard': ['Dashboard','Koperasi Amanah — Ringkasan Keuangan'],
+  'anggota-daftar': ['Anggota','Daftar & Pendaftaran Anggota'],
+  'anggota-aset': ['Aset Anggota','Cek aset pribadi dengan nomor anggota'],
+  'anggota-hak': ['Hak & Kewajiban','Berdasarkan AD/ART Koperasi Amanah'],
+  'biaya-simulasi': ['Simulasi Pembiayaan','Hitung estimasi angsuran'],
+  'biaya-pengajuan': ['Pengajuan Pembiayaan','Form & daftar pengajuan masuk'],
+  'tagihan-input': ['Input Tagihan','Input tagihan bulanan per anggota'],
+  'tagihan-rekap': ['Rekap Tagihan','Generate & ekspor tagihan bulanan'],
+  'trx-masuk': ['Uang Masuk','Catat semua pemasukan koperasi'],
+  'trx-keluar': ['Uang Keluar','Catat semua pengeluaran koperasi'],
+  'trx-jurnal': ['Jurnal Keuangan','Rekap arus kas masuk dan keluar'],
+  'lap-bulanan': ['Laporan Bulanan','Neraca & Laba Rugi per bulan'],
+  'lap-tahunan': ['Laporan Tahunan','Rekap keuangan per tahun'],
+  'pengaturan': ['Pengaturan','Konfigurasi sistem koperasi'],
+};
+
+function nav(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById('p-' + id);
+  if (pg) pg.classList.add('active');
+  if (el) el.classList.add('active');
+  if (pageMap[id]) {
+    document.getElementById('pgTitle').textContent = pageMap[id][0];
+    document.getElementById('pgCrumb').textContent = pageMap[id][1];
+  }
+}
+
+// ── MODAL ──
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); }));
+
+// ── TOAST ──
+let toastTimer;
+function toast(msg, isError) {
+  const el = document.getElementById('toastEl');
+  document.getElementById('toastMsg').textContent = msg;
+  el.classList.toggle('error', !!isError);
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── TABS ──
+function switchTab(btn, targetId) {
+  const tabs = btn.closest('.tabs');
+  tabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  // hide siblings
+  const parent = tabs.parentElement;
+  ['hak-tab','kwjb-tab','set-profil','set-pengguna','set-param','set-kas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  const target = document.getElementById(targetId);
+  if (target) target.style.display = 'block';
+}
+
+// ── SIMULASI PEMBIAYAAN ──
+function bulatRibu(n) { return Math.ceil(n / 1000) * 1000; }
+function fmtRp(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+
+function hitungSimulasi() {
+  const sisa = parseFloat(document.getElementById('sim-sisa').value) || 0;
+  const baru = parseFloat(document.getElementById('sim-baru').value) || 0;
+  const lama = parseFloat(document.getElementById('sim-lama').value) || 0;
+  if (!baru || !lama) { document.getElementById('sim-result').style.display='none'; return; }
+  const pokok = sisa + baru;
+  const ujroh = bulatRibu(pokok * 0.01);
+  const angsPok = Math.ceil(pokok / lama);
+  const angsTotal = angsPok + ujroh;
+  const totalUjroh = ujroh * lama;
+  const now = new Date();
+  const akhir = new Date(now.getFullYear(), now.getMonth() + lama, 1);
+  const bln = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  document.getElementById('sr-pokok').textContent = fmtRp(pokok);
+  document.getElementById('sr-ujroh').textContent = fmtRp(ujroh);
+  document.getElementById('sr-angsur').textContent = fmtRp(angsTotal);
+  document.getElementById('sr-total-ujroh').textContent = fmtRp(totalUjroh);
+  document.getElementById('sr-akhir').textContent = bln[akhir.getMonth()] + ' ' + akhir.getFullYear();
+  document.getElementById('sim-result').style.display = 'block';
+}
+
+function hitungPengajuan() {
+  const sisa = parseFloat(document.getElementById('pj-sisa').value) || 0;
+  const baru = parseFloat(document.getElementById('pj-baru').value) || 0;
+  const lama = parseFloat(document.getElementById('pj-lama').value) || 0;
+  const mulai = document.getElementById('pj-mulai').value;
+  if (!baru || !lama) return;
+  const pokok = sisa + baru;
+  const ujroh = bulatRibu(pokok * 0.01);
+  const angsPok = Math.ceil(pokok / lama);
+  const angsTotal = angsPok + ujroh;
+  document.getElementById('pj-ujroh').value = fmtRp(ujroh);
+  document.getElementById('pj-angsur').value = fmtRp(angsTotal);
+  if (mulai) {
+    const [y, m] = mulai.split('-').map(Number);
+    const akhir = new Date(y, m - 1 + lama, 1);
+    const bln = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    document.getElementById('pj-akhir').value = bln[akhir.getMonth()] + ' ' + akhir.getFullYear();
+  }
+}
+
+function autoNama() {
+  const no = document.getElementById('pj-no').value.toUpperCase();
+  const map = {'KA-001':'Budi Santoso','KA-002':'Siti Aminah','KA-003':'Ahmad Fauzi','KA-004':'Rina Hartati','KA-005':'Hendra Wijaya'};
+  document.getElementById('pj-nama').value = map[no] || '';
+}
+
+// ── CEK ASET ──
+function cekAset() {
+  const no = document.getElementById('inputNoAnggota').value.trim().toUpperCase();
+  const data = {
+    'KA-001': {nama:'Budi Santoso', jabatan:'Hakim'},
+    'KA-002': {nama:'Siti Aminah', jabatan:'Panitera'},
+    'KA-003': {nama:'Ahmad Fauzi', jabatan:'Staf'},
+    'KA-004': {nama:'Rina Hartati', jabatan:'Jurusita'},
+    'KA-005': {nama:'Hendra Wijaya', jabatan:'Bendahara'},
+  };
+  if (data[no]) {
+    document.getElementById('asetNama').textContent = data[no].nama;
+    document.getElementById('asetNo').textContent = 'No. Anggota: ' + no + ' · ' + data[no].jabatan;
+    document.getElementById('aset-login').style.display = 'none';
+    document.getElementById('aset-hasil').style.display = 'block';
+  } else {
+    toast('❌ Nomor anggota tidak ditemukan!', true);
+  }
+}
+</script>
+</body>
+</html>
